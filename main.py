@@ -12,10 +12,17 @@ def hello():
 def getCreatures():
     return jsonify({"creatures" : creatures, "message":"Creature's List"})
 
-@app.route ('/creatures/<string:creature_name>')
+@app.route('/creatures/<string:creature_name>')
 def getCreature(creature_name):
-    creaturesFound = [creature for creature in creatures if creatures['name' == creature_name]]
-    return jsonify({"creature" : creaturesFound[0]})
+    creaturesFound = []
+    for creature in creatures:
+        if creature['name'].lower() == creature_name.lower():
+             creaturesFound.append(creature)
+
+    if len(creaturesFound) > 0:
+        return jsonify({"creature" : creaturesFound[0]})
+    else:
+        return jsonify({"message" : "Creature not found"})
 
 if __name__ == '__main__' : 
     app.run (debug = True)
