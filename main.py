@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -6,7 +6,7 @@ from creatures import creatures
 
 @app.route('/')
 def hello():
-    return jsonify({"key":"value"})
+    return jsonify({"hello":"hello world"})
 
 @app.route('/creatures')
 def getCreatures():
@@ -23,6 +23,11 @@ def getCreature(creature_name):
         return jsonify({"creature" : creaturesFound[0]})
     else:
         return jsonify({"message" : "Creature not found"})
+    
+@app.route('/creatures', methods =['POST'])
+def addProduct():
+    #print(request.json)
+    return 'received'
 
 if __name__ == '__main__' : 
     app.run (debug = True)
