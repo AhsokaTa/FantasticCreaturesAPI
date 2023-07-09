@@ -26,8 +26,13 @@ def getCreature(creature_name):
     
 @app.route('/creatures', methods =['POST'])
 def addProduct():
-    #print(request.json)
-    return 'received'
+    new_creature = {
+        "name" : request.json['name'],
+        "size" : request.json['size'],
+        "characteristics" : request.json['characteristics']
+    }
+    creatures.append(new_creature)
+    return jsonify({"message" : "Product Added Succesfully", "creatures" : creatures})
 
 if __name__ == '__main__' : 
     app.run (debug = True)
