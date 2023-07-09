@@ -32,7 +32,24 @@ def addProduct():
         "characteristics" : request.json['characteristics']
     }
     creatures.append(new_creature)
-    return jsonify({"message" : "Product Added Succesfully", "creatures" : creatures})
+    return jsonify({"message" : "Creature Added Succesfully", "creatures" : creatures})
+
+@app.route('/creatures/<string:creature_name>' , methods = ['PUT'])
+def editCreature(creature_name):
+    creaturesFound = []
+    for creature in creatures:
+        if creature['name'].lower() == creature_name.lower():
+             creaturesFound.append(creature)
+
+    if (len(creaturesFound)>0) :
+        creaturesFound[0]['name'] = request.json['name']
+        creaturesFound[0]['size'] = request.json['size']
+        creaturesFound[0]['characteristics'] = request.json['characteristics']
+        return jsonify({
+            "message" : "Creature Update",
+            "creature" : creaturesFound
+        })
+    return jsonify({"message" : "Creature Not Found"})
 
 if __name__ == '__main__' : 
     app.run (debug = True)
